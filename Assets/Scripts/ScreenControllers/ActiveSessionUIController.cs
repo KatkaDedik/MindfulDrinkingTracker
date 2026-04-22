@@ -4,10 +4,24 @@ public class ActiveSessionUIController : UIController
 {
     [SerializeField] private TMPro.TextMeshProUGUI drinkCountText;
 
+    public override void Init(SessionService sessionService, ScreenManager screenManager)
+    {
+        base.Init(sessionService, screenManager);
+
+        sessionService.OnDrinkAdded += HandleDrinkAdded;
+    }
+    protected override bool IsMyScreen(ScreenType screenType)
+    {
+        return screenType == ScreenType.Session;
+    }
+    private void HandleDrinkAdded()
+    {
+        UpdateUI();
+    }
+
     public void OnAddDrinkClicked()
     {
         sessionService.AddDrink();
-        UpdateUI();
     }
 
     public void OnEndSessionClicked()
@@ -16,10 +30,6 @@ public class ActiveSessionUIController : UIController
         screenManager.ShowScreen(ScreenType.Result);
     }
 
-    protected override bool IsMyScreen(ScreenType screenType)
-    {
-        return screenType == ScreenType.Session;
-    }
 
     protected override void OnScreenShown()
     {
@@ -29,5 +39,14 @@ public class ActiveSessionUIController : UIController
     private void UpdateUI()
     {
         drinkCountText.text = $"{sessionService.GetTotalDrinks()}/{sessionService.GetMaxDrinks()}";
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (sessionService != null)
+        {
+            sessionService.OnDrinkAdded -= HandleDrinkAdded;
+        }
     }
 }

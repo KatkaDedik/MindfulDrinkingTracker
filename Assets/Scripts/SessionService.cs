@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class SessionService
 {
     private DrinkingSession currentSession;
-    
+
+    public event Action OnDrinkAdded;
+
     public void StartSession(int maxDrinks)
     {
         if (currentSession != null && currentSession.IsActive)
@@ -26,6 +29,7 @@ public class SessionService
             return;
         }
         currentSession.Drinks.Add(new DrinkEntry { Time = System.DateTime.Now });
+        OnDrinkAdded?.Invoke();
     }
 
     public void EndSession()

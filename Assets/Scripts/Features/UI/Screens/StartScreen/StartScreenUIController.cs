@@ -1,19 +1,19 @@
 using TMPro;
 using UnityEngine;
 
-public class StartScreenUIController : UIController
+public class StartScreenUIController : ScreenUIControllerBase
 {
-    [SerializeField] private TMP_InputField maxDrinksInput;
+    [SerializeField] private TMP_InputField _maxDrinksInput;
 
     public void OnStartClicked()
     {
-        if(!int.TryParse(maxDrinksInput.text, out int maxDrinks) || maxDrinks <= 0)
+        if(!int.TryParse(_maxDrinksInput.text, out int maxDrinks) || maxDrinks <= 0)
         {
             Debug.LogWarning("Please enter a valid positive number for max drinks.");
             return;
         }
-        sessionService.StartSession(maxDrinks);
-        screenManager.ShowScreen(ScreenType.Session);
+        SessionService.StartSession(maxDrinks);
+        ScreenManager.ShowScreen(ScreenType.Session);
     }
 
     protected override bool IsMyScreen(ScreenType screenType)

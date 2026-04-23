@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class SessionController : MonoBehaviour
 {
-    private SessionService sessionService = new SessionService();
+    private readonly SessionService _sessionService = new();
 
     public void OnStartSession(int maxDrinks)
     {
-        sessionService.StartSession(maxDrinks);
+        _sessionService.StartSession(maxDrinks);
         Debug.Log("Session started with max drinks: " + maxDrinks);
     }
 
     public void OnAddDrink()
     {
-        sessionService.AddDrink();
+        _sessionService.AddDrink();
     }
 
 }

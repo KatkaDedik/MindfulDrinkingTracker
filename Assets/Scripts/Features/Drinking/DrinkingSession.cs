@@ -10,6 +10,7 @@ public class DrinkingSession
     public List<DrinkEntry> Drinks = new();
     public bool IsActive => EndTime == null;
     public int TotalDrinks => Drinks.Count;
+    public int TotalWater = 0;
 }
 
 public class DrinkEntry

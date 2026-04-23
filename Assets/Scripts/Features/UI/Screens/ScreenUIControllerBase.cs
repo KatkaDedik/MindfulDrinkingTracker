@@ -1,14 +1,21 @@
 using UnityEngine;
 
-public abstract class UIController : MonoBehaviour
+public abstract class ScreenUIControllerBase : MonoBehaviour
 {
-    protected SessionService sessionService;
-    protected ScreenManager screenManager;
+    private ScreenManager _screenManager;
+    protected ScreenManager ScreenManager => _screenManager;
+
+    private SessionService _sessionService;
+    protected SessionService SessionService => _sessionService;
+    private bool _isInitialized = false;
 
     public virtual void Init(SessionService sessionService, ScreenManager screenManager)
     {
-        this.sessionService = sessionService;
-        this.screenManager = screenManager;
+        if (_isInitialized) return;
+        _isInitialized = true;
+
+        this._sessionService = sessionService;
+        this._screenManager = screenManager;
         screenManager.OnScreenChanged += HandleScreenChanged;
     }
 
@@ -31,7 +38,7 @@ public abstract class UIController : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        if (screenManager != null)
-            screenManager.OnScreenChanged -= HandleScreenChanged;
+        if (ScreenManager != null)
+            ScreenManager.OnScreenChanged -= HandleScreenChanged;
     }
 }

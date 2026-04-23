@@ -10,27 +10,27 @@ public enum ScreenType
 
 public class ScreenManager : MonoBehaviour
 {
-    [SerializeField] private GameObject startScreen;
-    [SerializeField] private GameObject sessionScreen;
-    [SerializeField] private GameObject resultScreen;
+    [SerializeField] private GameObject _startScreen;
+    [SerializeField] private GameObject _sessionScreen;
+    [SerializeField] private GameObject _resultScreen;
 
-    private GameObject currentScreen;
-    private Dictionary<ScreenType, GameObject> screens;
+    private GameObject _currentScreen;
+    private Dictionary<ScreenType, GameObject> _screens;
 
     public System.Action<ScreenType> OnScreenChanged;
 
     public void Start()
     {
-        screens = new Dictionary<ScreenType, GameObject>
+        _screens = new Dictionary<ScreenType, GameObject>
         {
-            { ScreenType.Start, startScreen },
-            { ScreenType.Session, sessionScreen },
-            { ScreenType.Result, resultScreen }
+            { ScreenType.Start, _startScreen },
+            { ScreenType.Session, _sessionScreen },
+            { ScreenType.Result, _resultScreen }
         };
 
-        foreach (var screen in screens)
+        foreach (var screen in _screens)
         {
-            if(screen.Value == null)
+            if (screen.Value == null)
             {
                 Debug.LogError($"Screen {screen.Key} is not assigned in inspector!");
             }
@@ -45,31 +45,31 @@ public class ScreenManager : MonoBehaviour
 
     public void ShowScreen(ScreenType screenType)
     {
-        if (!screens.ContainsKey(screenType))
+        if (!_screens.ContainsKey(screenType))
         {
             Debug.LogError($"Screen {screenType} not found!");
             return;
         }
 
-        if (currentScreen == screens[screenType])
+        if (_currentScreen == _screens[screenType])
             return;
 
         HideCurrentScreen();
-        currentScreen = screens[screenType];
-        currentScreen.SetActive(true);
+        _currentScreen = _screens[screenType];
+        _currentScreen.SetActive(true);
         OnScreenChanged?.Invoke(screenType);
     }
 
     private void HideCurrentScreen()
     {
-        if (currentScreen != null)
+        if (_currentScreen != null)
         {
-            currentScreen.SetActive(false);
+            _currentScreen.SetActive(false);
         }
         else
         {
             Debug.LogWarning("No current screen to hide. Hide all");
-            foreach(var screen in screens.Values)
+            foreach (var screen in _screens.Values)
             {
                 screen.SetActive(false);
             }

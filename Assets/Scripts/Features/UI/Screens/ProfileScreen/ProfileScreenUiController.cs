@@ -83,6 +83,6 @@ public class ProfileScreenUiController : ScreenUIControllerBase
 
     public void OnHomeClicked()
     {
-        ScreenManager.ShowScreen(ScreenType.Start);
+        ScreenManager.ShowScreen(ScreenType.Home);
     }
 }

@@ -8,7 +8,7 @@ public class SessionService
     public event Action OnDrinkAdded;
     public event Action OnWaterAdded;
     public event Action<DrinkingSession> OnSessionEnded;
-    public void StartSession(int maxDrinks)
+    public void StartSession(SessionConfig config)
     {
         if (_currentSession != null && _currentSession.IsActive)
         {
@@ -18,7 +18,7 @@ public class SessionService
         _currentSession = new DrinkingSession
         {
             DateTime = System.DateTime.Now,
-            MaxDrinks = maxDrinks
+            MaxDrinks = 0
         };
     }
 

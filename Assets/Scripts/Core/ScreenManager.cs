@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public enum ScreenType
 {
-    Start,
+    Home,
     Session,
     Result,
-    Profile
+    Profile,
+    StartSession
 }
 
 public class ScreenManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _startScreen;
+    [SerializeField] private GameObject _homeScreen;
     [SerializeField] private GameObject _sessionScreen;
     [SerializeField] private GameObject _resultScreen;
     [SerializeField] private GameObject _profileScreen;
+    [SerializeField] private GameObject _startSessionScreen;
+    [SerializeField] private ScreenType _screenType;
 
     private GameObject _currentScreen;
     private Dictionary<ScreenType, GameObject> _screens;
@@ -25,10 +29,11 @@ public class ScreenManager : MonoBehaviour
     {
         _screens = new Dictionary<ScreenType, GameObject>
         {
-            { ScreenType.Start, _startScreen },
+            { ScreenType.Home, _homeScreen },
             { ScreenType.Session, _sessionScreen },
             { ScreenType.Result, _resultScreen },
-            { ScreenType.Profile, _profileScreen }
+            { ScreenType.Profile, _profileScreen },
+            { ScreenType.StartSession, _startSessionScreen }
         };
 
         foreach (var screen in _screens)
@@ -43,7 +48,7 @@ public class ScreenManager : MonoBehaviour
             }
         }
 
-        ShowScreen(ScreenType.Start);
+        ShowScreen(ScreenType.Home);
     }
 
     public void ShowScreen(ScreenType screenType)

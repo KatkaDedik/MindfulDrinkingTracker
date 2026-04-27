@@ -8,7 +8,7 @@ public class SimpleGridFit : MonoBehaviour
 {
     [SerializeField] private GridLayoutGroup _grid;
     [SerializeField] private float _cellToSpaceRatio = 0.1f;
-    private const int _columns = 7;
+    [SerializeField] private int _columns = 7;
 
     private void Reset()
     {

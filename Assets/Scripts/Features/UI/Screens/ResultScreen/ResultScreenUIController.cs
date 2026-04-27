@@ -7,7 +7,7 @@ public class ResultScreenUIController : ScreenUIControllerBase
     [SerializeField] private TextMeshProUGUI _resultText;
     public void OnEndClicked()
     {
-        ScreenManager.ShowScreen(ScreenType.Start);
+        ScreenManager.ShowScreen(ScreenType.Home);
     }
     protected override bool IsMyScreen(ScreenType screenType)
     {

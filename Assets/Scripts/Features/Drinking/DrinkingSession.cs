@@ -17,3 +17,12 @@ public class DrinkEntry
 {
     public DateTime Time;
 }
+
+public class SessionConfig
+{
+    public DrinkingGoal Goal;
+
+    public float? TargetPromile;
+    public int? MaxDrinks;
+    public int? SoberByHour;
+}

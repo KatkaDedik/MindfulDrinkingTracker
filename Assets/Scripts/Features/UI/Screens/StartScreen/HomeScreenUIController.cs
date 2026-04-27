@@ -1,12 +1,8 @@
-using TMPro;
-using UnityEngine;
-
 public class HomeScreenUIController : ScreenUIControllerBase
 {
     public void OnStartClicked()
     {
-        SessionService.StartSession(5);
-        ScreenManager.ShowScreen(ScreenType.Session);
+        ScreenManager.ShowScreen(ScreenType.StartSession);
     }
 
     public void OnProfileClicked()
@@ -16,6 +12,6 @@ public class HomeScreenUIController : ScreenUIControllerBase
 
     protected override bool IsMyScreen(ScreenType screenType)
     {
-        return screenType == ScreenType.Start;
+        return screenType == ScreenType.StartSession;
     }
 }

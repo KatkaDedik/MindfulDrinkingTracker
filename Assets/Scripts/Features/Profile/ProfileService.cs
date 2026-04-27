@@ -24,7 +24,7 @@ public class ProfileService
         return new UserProfile
         {
             Nickname = PlayerPrefs.GetString(KEY_NICKNAME, "Unnown"),
-            WeightKg = PlayerPrefs.GetFloat(KEY_WEIGHT, 50),
+            WeightKg = PlayerPrefs.GetFloat(KEY_WEIGHT, 75),
             HeightCm = PlayerPrefs.GetFloat(KEY_HEIGHT, 170),
             Age = PlayerPrefs.GetInt(KEY_AGE, 18),
             Gender = ParseGender(PlayerPrefs.GetString(KEY_GENDER, "male"))

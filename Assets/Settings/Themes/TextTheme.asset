@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d66cb0162f5298b4e900d1f3ecbba301, type: 3}
+  m_Name: TextTheme
+  m_EditorClassIdentifier: Assembly-CSharp::TextTheme
+  Title:
+    Font: {fileID: 11400000, guid: 20ccf64314fd68740823bd7106ef125b, type: 2}
+    FontSize: 120
+    FontStyle: 0
+  Subtitle:
+    Font: {fileID: 11400000, guid: 20ccf64314fd68740823bd7106ef125b, type: 2}
+    FontSize: 80
+    FontStyle: 0
+  Body:
+    Font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    FontSize: 50
+    FontStyle: 0
+  Caption:
+    Font: {fileID: 11400000, guid: 3e44f037786300947b93cc052b5897c1, type: 2}
+    FontSize: 60
+    FontStyle: 0
+  Button:
+    Font: {fileID: 11400000, guid: 3e44f037786300947b93cc052b5897c1, type: 2}
+    FontSize: 80
+    FontStyle: 0

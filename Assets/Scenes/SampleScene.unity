@@ -5756,6 +5756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 800968116}
   - component: {fileID: 800968115}
+  - component: {fileID: 800968117}
   m_Layer: 0
   m_Name: App
   m_TagString: Untagged
@@ -5797,6 +5798,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &800968117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800968114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4858830fa6ec78a41805f907971d4783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThemeManager
+  _lightTheme: {fileID: 11400000, guid: 18464f63741d6a647a15afc78a9fb90c, type: 2}
+  _darkTheme: {fileID: 11400000, guid: 8bdd0fe08b8ab454fa414491a6ebd3c9, type: 2}
+  _textTheme: {fileID: 11400000, guid: 76d284f00b445df4a86b7e4eeda92eb4, type: 2}
 --- !u!224 &820145439 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 336940502011601409, guid: 8d00a763b02eb594d930b0bc9db45c58, type: 3}
@@ -7632,12 +7648,13 @@ GameObject:
   - component: {fileID: 1215867549}
   - component: {fileID: 1215867551}
   - component: {fileID: 1215867550}
+  - component: {fileID: 1215867552}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!224 &1215867549
 RectTransform:
@@ -7653,10 +7670,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1798492029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1242, y: 2208}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1215867550
 MonoBehaviour:
@@ -7671,7 +7688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  m_Color: {r: 0.65882355, g: 0.70980394, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7696,6 +7713,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215867548}
   m_CullTransparentMesh: 1
+--- !u!114 &1215867552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215867548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25da2f87773122843821fa024cd9e65b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThemedImage
+  _image: {fileID: 1215867550}
+  _colorRole: 0
 --- !u!1001 &1221831613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9931,6 +9962,7 @@ GameObject:
   - component: {fileID: 1691537758}
   - component: {fileID: 1691537760}
   - component: {fileID: 1691537759}
+  - component: {fileID: 1691537761}
   m_Layer: 5
   m_Name: TitleText
   m_TagString: Untagged
@@ -9979,15 +10011,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Alcontrol
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3e44f037786300947b93cc052b5897c1, type: 2}
+  m_sharedMaterial: {fileID: 2284911121460580566, guid: 3e44f037786300947b93cc052b5897c1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4286800466
+  m_fontColor: {r: 0.32156864, g: 0.38431376, b: 0.5137255, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10004,8 +10036,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128
-  m_fontSizeBase: 128
+  m_fontSize: 108
+  m_fontSizeBase: 108
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10057,6 +10089,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691537757}
   m_CullTransparentMesh: 1
+--- !u!114 &1691537761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691537757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe8aab09c3064d34d98d54b7ffd3354e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThemedText
+  _text: {fileID: 1691537759}
+  _colorRole: 2
+  _textStyle: 0
 --- !u!224 &1709295922 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 336940502011601409, guid: 8d00a763b02eb594d930b0bc9db45c58, type: 3}
@@ -10543,12 +10590,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

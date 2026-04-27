@@ -5,6 +5,7 @@ using UnityEngine;
 public class CalendarUIController : MonoBehaviour
 {
     [SerializeField] private List<DayUIController> _daySlots; //42
+    [SerializeField] private TMPro.TextMeshProUGUI _monthYearText;
 
     private int _currentYear;
     private int _currentMonth;
@@ -39,6 +40,8 @@ public class CalendarUIController : MonoBehaviour
 
     public void GenerateCalendar(int year, int month)
     {
+
+        _monthYearText.text = new DateTime(year, month, 1).ToString("MMMM yyyy");
         int daysInMonth = DateTime.DaysInMonth(year, month);
 
         DateTime firstDay = new DateTime(year, month, 1);

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProfileCreenUiController : ScreenUIControllerBase
+public class ProfileScreenUiController : ScreenUIControllerBase
 {
     [SerializeField] private TMP_Text _nicknameText;
     [SerializeField] private TMP_Text _weightText;

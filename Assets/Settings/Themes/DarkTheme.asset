@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1af8ee122f70dd4a93f0d4f560314d1, type: 3}
+  m_Name: DarkTheme
+  m_EditorClassIdentifier: Assembly-CSharp::Theme
+  Background: {r: 0.10196079, g: 0.12941177, b: 0.3137255, a: 1}
+  Surface: {r: 0.26666668, g: 0.30588236, b: 0.48627454, a: 1}
+  TextPrimary: {r: 0.83921576, g: 0.8000001, b: 0.7607844, a: 1}
+  TextSecondary: {r: 0.65882355, g: 0.70980394, b: 0.7686275, a: 1}
+  Primary: {r: 0.627451, g: 0.5372549, b: 0.4039216, a: 1}
+  Secondary: {r: 0.42352945, g: 0.57254905, b: 0.48235297, a: 1}
+  Success: {r: 0.64705884, g: 0.78823537, b: 0.70980394, a: 1}
+  Warning: {r: 0.8941177, g: 0.8862746, b: 0.7058824, a: 1}
+  Error: {r: 0.79215693, g: 0.5372549, b: 0.5372549, a: 1}

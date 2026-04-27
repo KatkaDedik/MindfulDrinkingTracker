@@ -5,7 +5,8 @@ public enum ScreenType
 {
     Start,
     Session,
-    Result
+    Result,
+    Profile
 }
 
 public class ScreenManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject _startScreen;
     [SerializeField] private GameObject _sessionScreen;
     [SerializeField] private GameObject _resultScreen;
+    [SerializeField] private GameObject _profileScreen;
 
     private GameObject _currentScreen;
     private Dictionary<ScreenType, GameObject> _screens;
@@ -25,7 +27,8 @@ public class ScreenManager : MonoBehaviour
         {
             { ScreenType.Start, _startScreen },
             { ScreenType.Session, _sessionScreen },
-            { ScreenType.Result, _resultScreen }
+            { ScreenType.Result, _resultScreen },
+            { ScreenType.Profile, _profileScreen }
         };
 
         foreach (var screen in _screens)

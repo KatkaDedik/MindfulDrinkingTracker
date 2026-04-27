@@ -16,6 +16,11 @@ public class StartScreenUIController : ScreenUIControllerBase
         ScreenManager.ShowScreen(ScreenType.Session);
     }
 
+    public void OnProfileClicked()
+    {
+        ScreenManager.ShowScreen(ScreenType.Profile);
+    }
+
     protected override bool IsMyScreen(ScreenType screenType)
     {
         return screenType == ScreenType.Start;

@@ -8,9 +8,9 @@ public class ActiveSessionUIController : ScreenUIControllerBase
     [SerializeField] private Image _alcoholMeter;
     [SerializeField] private Image _waterMeter;
 
-    public override void Init(SessionService sessionService, ScreenManager screenManager)
+    public override void Init(SessionService sessionService, ScreenManager screenManager, ProfileService profileService)
     {
-        base.Init(sessionService, screenManager);
+        base.Init(sessionService, screenManager, profileService);
 
         sessionService.OnDrinkAdded += HandleDrinkAdded;
         sessionService.OnWaterAdded += HandleDrinkAdded; // Reuse the same handler to update UI for both drinks and water

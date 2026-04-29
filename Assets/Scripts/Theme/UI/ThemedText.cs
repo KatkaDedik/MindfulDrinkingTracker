@@ -34,4 +34,24 @@ public class ThemedText : ThemedUI
             _text.fontStyle = style.FontStyle;
         }
     }
+
+    public void SetTextStyle(TextStyle newStyle)
+    {
+        _textStyle = newStyle;
+        ApplyTheme();
+    }
+
+    public void SetColorRole(ColorRole newRole)
+    {
+        _colorRole = newRole;
+        ApplyTheme();
+    }
+
+    public void SetText(string text)
+    {
+        if (_text != null)
+        {
+            _text.text = text;
+        }
+    }
 }

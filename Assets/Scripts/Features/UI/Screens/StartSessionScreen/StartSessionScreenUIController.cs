@@ -135,8 +135,8 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
     public void OnStartClicked()
     {
         var config = _controller.BuildConfig();
-        ScreenManager.ShowScreen(ScreenType.Session);
         SessionController.Instance.OnStartSession(config);
+        ScreenManager.ShowScreen(ScreenType.ActiveSession);
     }
 
     // =========================

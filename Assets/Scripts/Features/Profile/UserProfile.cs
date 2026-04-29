@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.Analytics;
-
 public class UserProfile
 {
     public string Nickname;

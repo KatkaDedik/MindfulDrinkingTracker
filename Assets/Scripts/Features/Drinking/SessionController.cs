@@ -21,12 +21,11 @@ public class SessionController : MonoBehaviour
     public void OnStartSession(SessionConfig config)
     {
         _sessionService.StartSession(config);
-        Debug.Log($"Session started with goal: {config.Goal}");
     }
 
-    public void OnAddDrink()
+    public void OnAddDrink(DrinkDefinition drink)
     {
-        _sessionService.AddDrink();
+        _sessionService.AddDrink(drink);
     }
 
     public SessionService GetService()

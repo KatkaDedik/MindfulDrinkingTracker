@@ -1,32 +1,49 @@
+using System;
+using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ActiveSessionUIController : ScreenUIControllerBase
 {
-    [SerializeField] private TMPro.TextMeshProUGUI _drinkCountText;
-    [SerializeField] private TMPro.TextMeshProUGUI _waterRatioText;
-    [SerializeField] private Image _alcoholMeter;
-    [SerializeField] private Image _waterMeter;
+    [SerializeField] private ModularInfoGrid _infoGrid;
+    [SerializeField] private DrinkDefinition[] _drinks;
+    [SerializeField] private GameObject _drinkButtonPrefab;
+    [SerializeField] private Transform _drinkContainer;
 
-    public override void Init(SessionService sessionService, ScreenManager screenManager, ProfileService profileService)
+    private List<DrinkButtonUIController> _drinkButtons = new();
+
+    public override void Init(SessionService sessionService, ScreenManager screenManager)
     {
-        base.Init(sessionService, screenManager, profileService);
+        base.Init(sessionService, screenManager);
 
         sessionService.OnDrinkAdded += HandleDrinkAdded;
-        sessionService.OnWaterAdded += HandleDrinkAdded; // Reuse the same handler to update UI for both drinks and water
+        sessionService.OnWaterAdded += HandleWaterAdded;
+
     }
+
+    protected override void OnScreenShown()
+    {
+        InitializeUI();
+        UpdateUI();
+    }
+
+    private void OnDrinkClicked(DrinkDefinition drink)
+    {
+        SessionController.Instance.OnAddDrink(drink);
+    }
+
     protected override bool IsMyScreen(ScreenType screenType)
     {
-        return screenType == ScreenType.Session;
+        return screenType == ScreenType.ActiveSession;
     }
-    private void HandleDrinkAdded()
+    private void HandleDrinkAdded(DrinkDefinition drink)
     {
         UpdateUI();
     }
 
-    public void OnAddDrinkClicked()
+    private void HandleWaterAdded()
     {
-        SessionService.AddDrink();
+        UpdateUI();
     }
 
     public void OnAddWaterClicked()
@@ -40,22 +57,50 @@ public class ActiveSessionUIController : ScreenUIControllerBase
         ScreenManager.ShowScreen(ScreenType.Result);
     }
 
-
-    protected override void OnScreenShown()
+    private void InitializeUI()
     {
-        UpdateUI();
+        _infoGrid.Initialize(SessionService.CurrentGoal, SessionService);
+        foreach (var button in _drinkButtons)
+        {
+            Destroy(button.gameObject);
+        }
+        _drinkButtons.Clear();
+        foreach (var drink in _drinks)
+        {
+            var buttonObj = Instantiate(_drinkButtonPrefab, _drinkContainer);
+            var buttonController = buttonObj.GetComponent<DrinkButtonUIController>();
+            buttonController.Setup(drink, OnDrinkClicked);
+            _drinkButtons.Add(buttonController);
+        }
+
     }
 
     private void UpdateUI()
     {
-        float alcoholRatio = SessionService.GetMaxDrinks() > 0 ? (float)SessionService.GetTotalDrinks() / SessionService.GetMaxDrinks() : 0;
-        float waterRatio = SessionService.GetTotalDrinks() > 0 ? (float)SessionService.GetTotalWater() / SessionService.GetTotalDrinks() : 0;
+        float currentPromile = SessionService.GetCurrentPromile();
+        float maxPromile = SessionService.GetCurrentSession().DesiredMaxPromilePeak;
 
-        _drinkCountText.text = $"{SessionService.GetTotalDrinks()}/{SessionService.GetMaxDrinks()}";
-        _waterRatioText.text = $"{SessionService.GetTotalWater()}/{SessionService.GetTotalDrinks()}";
+        for (int i = 0; i < _drinkButtons.Count; i++)
+        {
+            var button = _drinkButtons[i];
+            var drink = _drinks[i];
 
-        _alcoholMeter.rectTransform.rotation = Quaternion.Euler(0, 0, Mathf.Clamp(180 - (alcoholRatio * 180), 0, 180));
-        _waterMeter.rectTransform.rotation = Quaternion.Euler(0, 0, Mathf.Clamp(180 - (waterRatio * 180), 0, 180));
+            float afterDrink = SessionService.CalculatePromileAfterDrink(drink);
+            float increase = afterDrink - currentPromile;
+
+            if (maxPromile <= 0f || afterDrink <= maxPromile)
+            {
+                button.SetPromilePreview(increase);
+            }
+            else
+            {
+                DateTime nextTime = SessionService.CalculateTimeForNextDrink(drink);
+                float minutes = (float)(nextTime - DateTime.Now).TotalMinutes;
+
+                button.SetTimeout(Mathf.Max(0, minutes));
+            }
+        }
+        _infoGrid.UpdateWidgets();
     }
 
     protected override void OnDestroy()

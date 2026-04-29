@@ -37,6 +37,14 @@ public class ThemeManager : MonoBehaviour
         OnThemeChanged?.Invoke();
     }
 
+    public void ToggleTheme()
+    {
+        if (CurrentTheme == _lightTheme)
+            SetDarkTheme();
+        else
+            SetLightTheme();
+    }
+
     public void SetDarkTheme()
     {
         CurrentTheme = _darkTheme;

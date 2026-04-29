@@ -1,8 +1,12 @@
-using UnityEditor;
+﻿using UnityEditor;
+
 using UnityEngine;
 
 public abstract class ThemedUI : MonoBehaviour
 {
+    private static ColorTheme _cachedTheme;
+    private static TextTheme _cachedTextTheme;
+
     private void OnEnable()
     {
         ApplyTheme();
@@ -16,6 +20,10 @@ public abstract class ThemedUI : MonoBehaviour
 
     private void OnValidate()
     {
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+            return;
+#endif
         ApplyTheme();
     }
 
@@ -27,7 +35,11 @@ public abstract class ThemedUI : MonoBehaviour
             return ThemeManager.CurrentTheme;
 
 #if UNITY_EDITOR
-        return AssetDatabase.LoadAssetAtPath<ColorTheme>("Assets/Settings/Themes/LightTheme.asset");
+        if (_cachedTheme == null)
+        {
+            _cachedTheme = AssetDatabase.LoadAssetAtPath<ColorTheme>("Assets/Settings/Themes/LightTheme.asset");
+        }
+        return _cachedTheme;
 #endif
         return null;
     }
@@ -38,7 +50,11 @@ public abstract class ThemedUI : MonoBehaviour
             return ThemeManager.TextTheme;
 
 #if UNITY_EDITOR
-        return AssetDatabase.LoadAssetAtPath<TextTheme>("Assets/Settings/Themes/TextTheme.asset");
+        if (_cachedTextTheme == null)
+        {
+            _cachedTextTheme = AssetDatabase.LoadAssetAtPath<TextTheme>("Assets/Settings/Themes/TextTheme.asset");
+        }
+        return _cachedTextTheme;
 #endif
     }
 }

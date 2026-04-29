@@ -8,13 +8,12 @@ public class GameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
-        var sessionService = new SessionService();
+        var sessionService = SessionController.Instance.GetService();
         var calendarService = new CalendarService();
-        var profileService = new ProfileService();
 
         foreach (var controller in _controllers)
         {
-            controller.Init(sessionService, _screenManager, profileService);
+            controller.Init(sessionService, _screenManager);
         }
 
         _calendarUIController.Init(sessionService, calendarService);

@@ -62,7 +62,7 @@ public class ProfileScreenUiController : ScreenUIControllerBase
         _ageInput.gameObject.SetActive(false);
         _genderDropdown.gameObject.SetActive(false);
 
-        _profileService.SaveProfile(profile);
+        ProfileService.SaveProfile(profile);
 
         _saveButton.gameObject.SetActive(false);
         _editButton.gameObject.SetActive(true);
@@ -84,5 +84,10 @@ public class ProfileScreenUiController : ScreenUIControllerBase
     public void OnHomeClicked()
     {
         ScreenManager.ShowScreen(ScreenType.Home);
+    }
+
+    public void OnChangeThemeClicked()
+    {
+        ThemeManager.Instance.ToggleTheme();
     }
 }

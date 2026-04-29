@@ -5,7 +5,7 @@ using UnityEngine;
 public enum ScreenType
 {
     Home,
-    Session,
+    ActiveSession,
     Result,
     Profile,
     StartSession
@@ -14,7 +14,7 @@ public enum ScreenType
 public class ScreenManager : MonoBehaviour
 {
     [SerializeField] private GameObject _homeScreen;
-    [SerializeField] private GameObject _sessionScreen;
+    [SerializeField] private GameObject _activeSessionScreen;
     [SerializeField] private GameObject _resultScreen;
     [SerializeField] private GameObject _profileScreen;
     [SerializeField] private GameObject _startSessionScreen;
@@ -30,7 +30,7 @@ public class ScreenManager : MonoBehaviour
         _screens = new Dictionary<ScreenType, GameObject>
         {
             { ScreenType.Home, _homeScreen },
-            { ScreenType.Session, _sessionScreen },
+            { ScreenType.ActiveSession, _activeSessionScreen },
             { ScreenType.Result, _resultScreen },
             { ScreenType.Profile, _profileScreen },
             { ScreenType.StartSession, _startSessionScreen }

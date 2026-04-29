@@ -11,11 +11,13 @@ public class DrinkingSession
     public bool IsActive => EndTime == null;
     public int TotalDrinks => Drinks.Count;
     public int TotalWater = 0;
+    public float DesiredMaxPromilePeak = 0f;
 }
 
 public class DrinkEntry
 {
     public DateTime Time;
+    public DrinkDefinition Drink;
 }
 
 public class SessionConfig

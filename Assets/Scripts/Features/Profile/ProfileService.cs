@@ -1,3 +1,5 @@
+using System.ComponentModel.Design.Serialization;
+
 using UnityEngine;
 
 public static class ProfileService
@@ -8,6 +10,10 @@ public static class ProfileService
     private const string KEY_AGE = "profile_age";
     private const string KEY_GENDER = "profile_gender";
     public static UserProfile CurrentProfile;
+
+    private const string FEMALE_STRING = "Female";
+    private const string MALE_STRING = "Male";
+    private const string OTHER_STRING = "Other";
 
     public static void SaveProfile(UserProfile profile)
     {
@@ -30,13 +36,13 @@ public static class ProfileService
             WeightKg = PlayerPrefs.GetFloat(KEY_WEIGHT, 75),
             HeightCm = PlayerPrefs.GetFloat(KEY_HEIGHT, 170),
             Age = PlayerPrefs.GetInt(KEY_AGE, 18),
-            Gender = ParseGender(PlayerPrefs.GetString(KEY_GENDER, "male"))
+            Gender = ParseGender(PlayerPrefs.GetString(KEY_GENDER, MALE_STRING))
         };
         return CurrentProfile;
     }
 
     private static Gender ParseGender(string value)
     {
-        return value == "female" ? Gender.Female : (value == "male" ? Gender.Male : Gender.Other);
+        return value == FEMALE_STRING ? Gender.Female : (value == MALE_STRING ? Gender.Male : Gender.Other);
     }
 }

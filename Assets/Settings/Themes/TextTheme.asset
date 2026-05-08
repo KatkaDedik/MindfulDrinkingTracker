@@ -21,7 +21,7 @@ MonoBehaviour:
     FontSize: 80
     FontStyle: 0
   Body:
-    Font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    Font: {fileID: 11400000, guid: f12b14eae4d74d2479f97309816fe827, type: 2}
     FontSize: 50
     FontStyle: 0
   Caption:

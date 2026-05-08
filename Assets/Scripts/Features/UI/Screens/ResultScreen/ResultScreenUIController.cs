@@ -13,16 +13,4 @@ public class ResultScreenUIController : ScreenUIControllerBase
     {
         return screenType == ScreenType.Result;
     }
-
-    protected override void OnScreenShown()
-    {
-        var drinks = SessionService.GetTotalDrinks();
-        var maxDrinks = SessionService.GetMaxDrinks();
-        _drinkCountText.text = $"{drinks}/{maxDrinks}";
-
-        if (drinks <= maxDrinks)
-            _resultText.text = "Safe night";
-        else
-            _resultText.text = "Over limit";
-    }
 }

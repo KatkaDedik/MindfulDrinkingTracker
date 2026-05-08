@@ -6,10 +6,3 @@ public class UserProfile
     public int Age;
     public Gender Gender;
 }
-
-public enum Gender
-{
-    Male,
-    Female,
-    Other
-}

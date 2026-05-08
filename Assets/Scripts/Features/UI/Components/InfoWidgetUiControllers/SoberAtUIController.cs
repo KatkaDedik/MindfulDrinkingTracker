@@ -1,10 +1,15 @@
-using UnityEngine;
-
 public class SoberAtUIController : InfoWidgetUIControllerBase
 {
+    private SessionPromileService _sessionPromileService;
+    public override void Init(SessionWidgetContext context)
+    {
+        _sessionPromileService = context.PromileService;
+    }
+
+
     public override void UpdateWidget()
     {
-        System.DateTime time = _sessionService.CalculateSoberTime();
+        System.DateTime time = _sessionPromileService.CalculateSoberTime();
         UpdateTime(time);
     }
 

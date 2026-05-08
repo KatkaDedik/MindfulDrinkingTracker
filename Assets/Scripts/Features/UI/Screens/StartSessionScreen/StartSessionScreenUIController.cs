@@ -10,13 +10,13 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
     [SerializeField] private TextMeshProUGUI _targetValueText;
     [SerializeField] private TextMeshProUGUI _targetText;
 
-    private StartDrinkingSessionController _controller;
+    private SessionConfigBuilder _sessionConfigBuilder;
 
     protected void Awake()
     {
-        if(_controller == null)
+        if(_sessionConfigBuilder == null)
         {
-            _controller = new StartDrinkingSessionController();
+            _sessionConfigBuilder = new SessionConfigBuilder();
         }
 
         _targetSlider.gameObject.SetActive(false);
@@ -35,13 +35,9 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
         ScreenManager.ShowScreen(ScreenType.Home);
     }
 
-    // =========================
-    // BUTTON HANDLERS
-    // =========================
-
     public void OnStayInControlClicked()
     {
-        _controller.SelectGoal(DrinkingGoal.StayInControl);
+        _sessionConfigBuilder.SelectGoal(DrinkingGoal.StayInControl);
 
         SetupSlider(
             "Target Promile",
@@ -54,7 +50,7 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
 
     public void OnLimitDrinksClicked()
     {
-        _controller.SelectGoal(DrinkingGoal.LimitDrinks);
+        _sessionConfigBuilder.SelectGoal(DrinkingGoal.LimitDrinks);
         
         SetupSlider(
             "Max Drinks",
@@ -67,7 +63,7 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
 
     public void OnDriveTomorrowClicked()
     {
-        _controller.SelectGoal(DrinkingGoal.DriveTomorrow);
+        _sessionConfigBuilder.SelectGoal(DrinkingGoal.DriveTomorrow);
 
         SetupSlider(
             "Sober By",
@@ -80,16 +76,12 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
 
     public void OnJustTrackClicked()
     {
-        _controller.SelectGoal(DrinkingGoal.JustTrack);
+        _sessionConfigBuilder.SelectGoal(DrinkingGoal.JustTrack);
 
         _targetSlider.gameObject.SetActive(false);
 
         RefreshUI();
     }
-
-    // =========================
-    // SLIDER
-    // =========================
 
     private void SetupSlider(string label, float min, float max, float defaultValue)
     {
@@ -107,45 +99,37 @@ public class StartSessionScreenUIController : ScreenUIControllerBase
 
     private void OnSliderChanged(float value)
     {
-        switch (_controller.SelectedGoal)
+        switch (_sessionConfigBuilder.SelectedGoal)
         {
             case DrinkingGoal.StayInControl:
-                _controller.SetPromile(value);
+                _sessionConfigBuilder.SetPromile(value);
                 _targetValueText.text = $"{((float)value/10f):F1}‰";
                 break;
 
             case DrinkingGoal.LimitDrinks:
                 int drinks = Mathf.RoundToInt(value);
-                _controller.SetMaxDrinks(drinks);
+                _sessionConfigBuilder.SetMaxDrinks(drinks);
                 _targetValueText.text = $"{drinks} drinks";
                 break;
 
             case DrinkingGoal.DriveTomorrow:
                 int hour = Mathf.RoundToInt(value);
-                _controller.SetSoberBy(hour);
+                _sessionConfigBuilder.SetSoberBy(hour);
                 _targetValueText.text = $"{hour}:00";
                 break;
         }
     }
 
-    // =========================
-    // START SESSION
-    // =========================
-
     public void OnStartClicked()
     {
-        var config = _controller.BuildConfig();
-        SessionController.Instance.OnStartSession(config);
+        SessionConfig config = _sessionConfigBuilder.BuildConfig();
+        SessionService.StartSession(config);
         ScreenManager.ShowScreen(ScreenType.ActiveSession);
     }
 
-    // =========================
-    // UI STATE
-    // =========================
-
     private void RefreshUI()
     {
-        bool hasGoal = _controller.SelectedGoal != DrinkingGoal.None;
+        bool hasGoal = _sessionConfigBuilder.SelectedGoal != DrinkingGoal.None;
 
         _startButton.gameObject.SetActive(hasGoal);
     }

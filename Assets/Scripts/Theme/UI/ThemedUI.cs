@@ -39,9 +39,11 @@ public abstract class ThemedUI : MonoBehaviour
         {
             _cachedTheme = AssetDatabase.LoadAssetAtPath<ColorTheme>("Assets/Settings/Themes/LightTheme.asset");
         }
+
         return _cachedTheme;
-#endif
+#else
         return null;
+#endif
     }
 
     protected TextTheme GetTextTheme()
@@ -55,6 +57,9 @@ public abstract class ThemedUI : MonoBehaviour
             _cachedTextTheme = AssetDatabase.LoadAssetAtPath<TextTheme>("Assets/Settings/Themes/TextTheme.asset");
         }
         return _cachedTextTheme;
+#else
+        return null;
 #endif
+
     }
 }

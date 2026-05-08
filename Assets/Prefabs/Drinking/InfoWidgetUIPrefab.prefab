@@ -430,7 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThemedText
   _text: {fileID: 4868749251007116506}
   _colorRole: 0
-  _textStyle: 3
+  _textStyle: 2
 --- !u!1 &6005343785243109585
 GameObject:
   m_ObjectHideFlags: 0

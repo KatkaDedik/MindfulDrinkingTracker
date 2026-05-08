@@ -2,20 +2,31 @@ using UnityEngine;
 
 public class GameBootstrapper : MonoBehaviour
 {
-    [SerializeField] private ScreenUIControllerBase[] _controllers;
+    [SerializeField] private ScreenUIControllerBase[] _screenUIcontrollers;
     [SerializeField] private ScreenManager _screenManager;
     [SerializeField] private CalendarUIController _calendarUIController;
+    [SerializeField] private MenuManager _menuManager;
+
 
     private void Awake()
     {
-        var sessionService = SessionController.Instance.GetService();
-        var calendarService = new CalendarService();
+        var sessionState = new SessionState();
 
-        foreach (var controller in _controllers)
+        var context = new AppContext
         {
-            controller.Init(sessionService, _screenManager);
+            SessionService = new SessionService(sessionState),
+            SessionPromileService = new SessionPromileService(sessionState),
+            SessionStatisticsService = new SessionStatisticsService(sessionState),
+            CalendarService = new CalendarService(),
+            ScreenManager = _screenManager
+        };
+
+        foreach (var controller in _screenUIcontrollers)
+        {
+            controller.Init(context);
         }
 
-        _calendarUIController.Init(sessionService, calendarService);
+        _calendarUIController.Init(context);
+        _menuManager.Init(context);
     }
 }

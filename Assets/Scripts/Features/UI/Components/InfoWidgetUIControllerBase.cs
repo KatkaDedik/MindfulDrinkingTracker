@@ -8,28 +8,24 @@ public abstract class InfoWidgetUIControllerBase : MonoBehaviour
     [SerializeField] protected ThemedImage _themedBackground;
 
     protected bool _isMainWidget = false;
-    protected SessionService _sessionService;
 
-    public virtual void Initialize(bool isMainWidget, SessionService sessionService)
+    public abstract void Init(SessionWidgetContext context);
+
+    public virtual void SetMainWidget()
     {
-        _sessionService = sessionService;
-        _isMainWidget = isMainWidget;
-        if (isMainWidget)
-        {
-            _labelThemedText.SetTextStyle(TextStyle.Subtitle);
-            _valueLabelText.SetTextStyle(TextStyle.Title);
-            _mainWidget.SetActive(true);
-        }
-        else
-        {
-            _labelThemedText.SetTextStyle(TextStyle.Caption);
-            _valueLabelText.SetTextStyle(TextStyle.Button);
-            _mainWidget.SetActive(false);
-        }
+        _isMainWidget = true;
+        _labelThemedText.SetTextStyle(TextStyle.Subtitle);
+        _valueLabelText.SetTextStyle(TextStyle.Title);
+        _mainWidget.SetActive(true);
+    }
+
+    public virtual void SetSubWidget()
+    {
+        _isMainWidget = false;
+        _labelThemedText.SetTextStyle(TextStyle.Caption);
+        _valueLabelText.SetTextStyle(TextStyle.Button);
+        _mainWidget.SetActive(false);
     }
 
     public abstract void UpdateWidget();
-
-
-
 }

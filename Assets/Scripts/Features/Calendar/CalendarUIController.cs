@@ -11,30 +11,13 @@ public class CalendarUIController : MonoBehaviour
     private int _currentMonth;
 
     private CalendarService _calendarService;
-    private SessionService _sessionService;
 
-    public void Init(SessionService sessionService, CalendarService calendarService)
+    public void Init(AppContext context)
     {
-        this._sessionService = sessionService;
-        this._calendarService = calendarService;
+        this._calendarService = context.CalendarService;
         DateTime now = DateTime.Now;
         _currentYear = now.Year;
         _currentMonth = now.Month;
-        GenerateCalendar(_currentYear, _currentMonth);
-        sessionService.OnSessionEnded += HandleSessionEnded;
-    }
-
-    private void HandleSessionEnded(DrinkingSession session)
-    {
-        if (!session.EndTime.HasValue) return;
-
-        _calendarService.SetDayData(
-            session.EndTime.Value,
-            session.TotalDrinks,
-            session.TotalWater,
-            session.MaxDrinks
-        );
-
         GenerateCalendar(_currentYear, _currentMonth);
     }
 

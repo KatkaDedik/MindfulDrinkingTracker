@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 04e2cd59a5109b94a9cb3ca946ce7e06
+guid: a1b46d76c9dd8824681c09583ca82227
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - HERO BEAM
+  - Playfair Display
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

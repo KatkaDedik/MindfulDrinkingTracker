@@ -10,14 +10,14 @@ public abstract class ScreenUIControllerBase : MonoBehaviour
 
     private bool _isInitialized = false;
 
-    public virtual void Init(SessionService sessionService, ScreenManager screenManager)
+    public virtual void Init(AppContext context)
     {
         if (_isInitialized) return;
         _isInitialized = true;
 
-        this._sessionService = sessionService;
-        this._screenManager = screenManager;
-        screenManager.OnScreenChanged += HandleScreenChanged;
+        this._sessionService = context.SessionService;
+        this._screenManager = context.ScreenManager;
+        _screenManager.OnScreenChanged += HandleScreenChanged;
     }
 
     private void HandleScreenChanged(ScreenType screenType)

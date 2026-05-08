@@ -1,5 +1,5 @@
 
-public class StartDrinkingSessionController
+public class SessionConfigBuilder
 {
     public DrinkingGoal SelectedGoal { get; private set; } = DrinkingGoal.None;
 

@@ -1,13 +1,22 @@
+using System;
+
 using UnityEngine;
 
 public class DrinkWidgetUIController : InfoWidgetUIControllerBase
 {
+    private SessionStatisticsService _statisticsService;
+
+    public override void Init(SessionWidgetContext context)
+    {
+        _statisticsService = context.StatisticsService;
+    }
+
     public override void UpdateWidget()
     {
-        int Drinks = _sessionService.GetTotalDrinks();
+        int Drinks = _statisticsService.GetTotalDrinks();
         if (_isMainWidget)
         {
-            int MaxDrinks = _sessionService.GetMaxDrinks();
+            int MaxDrinks = _statisticsService.GetMaxDrinks();
             _valueLabelText.SetText(Drinks.ToString() + "/" + MaxDrinks.ToString());
 
         }

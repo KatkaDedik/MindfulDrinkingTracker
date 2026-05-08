@@ -1,114 +1,94 @@
-using System;
-using System.Collections.Generic;
-
+using System.Collections;
 using UnityEngine;
 
 public class ActiveSessionUIController : ScreenUIControllerBase
 {
-    [SerializeField] private ModularInfoGrid _infoGrid;
-    [SerializeField] private DrinkDefinition[] _drinks;
-    [SerializeField] private GameObject _drinkButtonPrefab;
-    [SerializeField] private Transform _drinkContainer;
+    [SerializeField] private InfoWidgetGrid _infoGrid;
+    [SerializeField] private InfoWidget[] _infoWidgets;
+    [SerializeField] private DrinkButtonPanel _drinkButtonPanel;
 
-    private List<DrinkButtonUIController> _drinkButtons = new();
+    private Coroutine _updateCoroutine;
 
-    public override void Init(SessionService sessionService, ScreenManager screenManager)
+    private SessionWidgetContext _sessionWidgetContext;
+
+    public override void Init(AppContext context)
     {
-        base.Init(sessionService, screenManager);
+        base.Init(context);
 
-        sessionService.OnDrinkAdded += HandleDrinkAdded;
-        sessionService.OnWaterAdded += HandleWaterAdded;
+        _sessionWidgetContext = new SessionWidgetContext
+        {
+            PromileService = context.SessionPromileService,
+            StatisticsService = context.SessionStatisticsService
+        };
 
+        foreach (var widget in _infoWidgets)
+        {
+            widget.WidgetController.Init(_sessionWidgetContext);
+        }
+
+        _infoGrid.Initialize(SessionService.CurrentGoal, _infoWidgets);
+        _drinkButtonPanel.Init(SessionService, context.SessionPromileService);
     }
 
     protected override void OnScreenShown()
     {
-        InitializeUI();
         UpdateUI();
+        if (_updateCoroutine == null)
+            _updateCoroutine = StartCoroutine(UpdateLoop());
     }
 
-    private void OnDrinkClicked(DrinkDefinition drink)
+    protected override void OnScreenHidden()
     {
-        SessionController.Instance.OnAddDrink(drink);
+        if (_updateCoroutine != null)
+        {
+            StopCoroutine(_updateCoroutine);
+            _updateCoroutine = null;
+        }
     }
 
     protected override bool IsMyScreen(ScreenType screenType)
     {
         return screenType == ScreenType.ActiveSession;
     }
-    private void HandleDrinkAdded(DrinkDefinition drink)
+
+    public void OnEnable()
+    {
+        SessionService.OnSessionUpdated += HandleSessionUpdated;
+    }
+
+    public void OnDisable()
+    {
+        SessionService.OnSessionUpdated -= HandleSessionUpdated;
+    }
+
+    private IEnumerator UpdateLoop()
+    {
+        while (enabled)
+        {
+            yield return new WaitForSeconds(60);
+            UpdateUI();
+        }
+    }
+
+    private void HandleSessionUpdated()
     {
         UpdateUI();
-    }
-
-    private void HandleWaterAdded()
-    {
-        UpdateUI();
-    }
-
-    public void OnAddWaterClicked()
-    {
-        SessionService.AddWater();
-    }
-
-    public void OnEndSessionClicked()
-    {
-        SessionService.EndSession();
-        ScreenManager.ShowScreen(ScreenType.Result);
-    }
-
-    private void InitializeUI()
-    {
-        _infoGrid.Initialize(SessionService.CurrentGoal, SessionService);
-        foreach (var button in _drinkButtons)
-        {
-            Destroy(button.gameObject);
-        }
-        _drinkButtons.Clear();
-        foreach (var drink in _drinks)
-        {
-            var buttonObj = Instantiate(_drinkButtonPrefab, _drinkContainer);
-            var buttonController = buttonObj.GetComponent<DrinkButtonUIController>();
-            buttonController.Setup(drink, OnDrinkClicked);
-            _drinkButtons.Add(buttonController);
-        }
-
     }
 
     private void UpdateUI()
     {
-        float currentPromile = SessionService.GetCurrentPromile();
-        float maxPromile = SessionService.GetCurrentSession().DesiredMaxPromilePeak;
+        if (SessionService.GetCurrentSession() == null)
+            return;
 
-        for (int i = 0; i < _drinkButtons.Count; i++)
-        {
-            var button = _drinkButtons[i];
-            var drink = _drinks[i];
-
-            float afterDrink = SessionService.CalculatePromileAfterDrink(drink);
-            float increase = afterDrink - currentPromile;
-
-            if (maxPromile <= 0f || afterDrink <= maxPromile)
-            {
-                button.SetPromilePreview(increase);
-            }
-            else
-            {
-                DateTime nextTime = SessionService.CalculateTimeForNextDrink(drink);
-                float minutes = (float)(nextTime - DateTime.Now).TotalMinutes;
-
-                button.SetTimeout(Mathf.Max(0, minutes));
-            }
-        }
-        _infoGrid.UpdateWidgets();
+        _drinkButtonPanel.UpdateDrinkButtons();
+        UpdateInfoWidgets();
     }
 
-    protected override void OnDestroy()
+    private void UpdateInfoWidgets()
     {
-        base.OnDestroy();
-        if (SessionService != null)
+        foreach (var widget in _infoWidgets)
         {
-            SessionService.OnDrinkAdded -= HandleDrinkAdded;
+            widget.WidgetController.UpdateWidget();
         }
     }
 }

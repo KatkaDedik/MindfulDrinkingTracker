@@ -82,7 +82,5 @@ public class ScreenManager : MonoBehaviour
                 screen.SetActive(false);
             }
         }
-
     }
-
 }

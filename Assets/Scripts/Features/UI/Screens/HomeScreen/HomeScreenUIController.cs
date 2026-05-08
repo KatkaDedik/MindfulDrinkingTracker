@@ -2,7 +2,7 @@ public class HomeScreenUIController : ScreenUIControllerBase
 {
     public void OnStartClicked()
     {
-        ScreenManager.ShowScreen(ScreenType.StartSession);
+        ScreenManager.ShowScreen(ScreenType.ConfigurateNewSession);
     }
 
     public void OnProfileClicked()
@@ -12,6 +12,6 @@ public class HomeScreenUIController : ScreenUIControllerBase
 
     protected override bool IsMyScreen(ScreenType screenType)
     {
-        return screenType == ScreenType.StartSession;
+        return screenType == ScreenType.ConfigurateNewSession;
     }
 }

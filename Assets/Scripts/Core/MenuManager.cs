@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [System.Serializable]
@@ -6,72 +7,86 @@ public struct MenuButton
 {
     public GameObject ButtonParent;
     public ScreenType VisibleOnScreen;
+    public AppFlowState VisibleInState;
 }
-
-
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private List<MenuButton> _menuButtons;
+
     private ScreenManager _screenManager;
-    private SessionService _sessionService;
+    private AppFlowController _appFlowController;
 
     public void Init(AppContext context)
     {
         _screenManager = context.ScreenManager;
-        _sessionService = context.SessionService;
+        _appFlowController = context.AppFlowController;
     }
 
     private void OnEnable()
     {
-        _screenManager.OnScreenChanged += UpdateVisibleButton;
+        _appFlowController.OnFlowStateChanged += HandleRefresh;
+        _screenManager.OnScreenChanged += HandleRefresh;
     }
 
     private void OnDisable()
     {
-        _screenManager.OnScreenChanged -= UpdateVisibleButton;
+        _appFlowController.OnFlowStateChanged -= HandleRefresh;
+        _screenManager.OnScreenChanged -= HandleRefresh;
     }
 
-    public void UpdateVisibleButton(ScreenType screenType)
+    public void HandleRefresh(AppFlowState appFlowState)
+    {
+        var screenType = _screenManager.CurrentScreenType;
+        Refresh(screenType, appFlowState);
+    }
+
+    public void HandleRefresh(ScreenType screenType)
+    {
+        var appFlowState = _appFlowController.CurrentState;
+        Refresh(screenType, appFlowState);
+    }
+
+    public void Refresh(ScreenType screenType, AppFlowState appFlowState)
     {
         foreach (var menuButton in _menuButtons)
         {
             if (menuButton.ButtonParent == null)
             {
-                Debug.LogError($"Menu button for screen {menuButton.VisibleOnScreen} is not assigned in inspector!");
+                Debug.LogError(
+                    $"Menu button for state {menuButton.VisibleInState} is not assigned!");
                 continue;
             }
-            menuButton.ButtonParent.SetActive(menuButton.VisibleOnScreen == screenType);
+            menuButton.ButtonParent.SetActive(menuButton.VisibleInState == appFlowState && screenType == menuButton.VisibleOnScreen);
         }
-    }
-
-    public void OnStartNewSessionCliced()
-    {
-        _screenManager.ShowScreen(ScreenType.ActiveSession);
     }
 
     public void OnContinueSessionClicked()
     {
-        _screenManager.ShowScreen(ScreenType.ActiveSession);
-        //_sessionService.LoadSession();
+        _appFlowController.ContinueSession();
     }
 
     public void OnProfileClicked()
     {
-        _screenManager.ShowScreen(ScreenType.Profile);
+        _appFlowController.OpenProfile();
     }
 
     public void OnHomeClicked()
     {
-        _screenManager.ShowScreen(ScreenType.Home);
+        _appFlowController.OpenHome();
     }
 
     public void OnCreateNewSessionClicked()
     {
-        _screenManager.ShowScreen(ScreenType.StartSession);
+        _appFlowController.OpenConfigurateSession();
     }
 
     public void OnEndSessionClicked()
     {
-        _screenManager.ShowScreen(ScreenType.Result);
+        _appFlowController.EndSession();
+    }
+
+    public void OnStartNewSessionClicked()
+    {
+        _appFlowController.StartConfiguratedSession();
     }
 }

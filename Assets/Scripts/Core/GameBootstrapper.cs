@@ -18,15 +18,23 @@ public class GameBootstrapper : MonoBehaviour
             SessionPromileService = new SessionPromileService(sessionState),
             SessionStatisticsService = new SessionStatisticsService(sessionState),
             CalendarService = new CalendarService(),
-            ScreenManager = _screenManager
+            ScreenManager = _screenManager,
         };
+        context.AppFlowController = new AppFlowController(
+                context.ScreenManager,
+                context.SessionService);
 
         foreach (var controller in _screenUIcontrollers)
         {
             controller.Init(context);
         }
 
+        _screenManager.Init();
+        context.AppFlowController.Initialize();
+
         _calendarUIController.Init(context);
         _menuManager.Init(context);
+
+
     }
 }

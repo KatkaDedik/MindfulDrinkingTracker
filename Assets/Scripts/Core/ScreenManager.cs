@@ -8,7 +8,7 @@ public enum ScreenType
     ActiveSession,
     Result,
     Profile,
-    StartSession
+    ConfigurateNewSession
 }
 
 public class ScreenManager : MonoBehaviour
@@ -17,15 +17,15 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject _activeSessionScreen;
     [SerializeField] private GameObject _resultScreen;
     [SerializeField] private GameObject _profileScreen;
-    [SerializeField] private GameObject _startSessionScreen;
-    [SerializeField] private ScreenType _screenType;
+    [SerializeField] private GameObject _configurateSessionScreen;
 
     private GameObject _currentScreen;
+    public ScreenType CurrentScreenType { get; private set; }
     private Dictionary<ScreenType, GameObject> _screens;
 
     public System.Action<ScreenType> OnScreenChanged;
 
-    public void Start()
+    public void Init()
     {
         _screens = new Dictionary<ScreenType, GameObject>
         {
@@ -33,7 +33,7 @@ public class ScreenManager : MonoBehaviour
             { ScreenType.ActiveSession, _activeSessionScreen },
             { ScreenType.Result, _resultScreen },
             { ScreenType.Profile, _profileScreen },
-            { ScreenType.StartSession, _startSessionScreen }
+            { ScreenType.ConfigurateNewSession, _configurateSessionScreen }
         };
 
         foreach (var screen in _screens)
@@ -47,8 +47,6 @@ public class ScreenManager : MonoBehaviour
                 screen.Value.SetActive(false);
             }
         }
-
-        ShowScreen(ScreenType.Home);
     }
 
     public void ShowScreen(ScreenType screenType)
@@ -63,6 +61,7 @@ public class ScreenManager : MonoBehaviour
             return;
 
         HideCurrentScreen();
+        CurrentScreenType = screenType;
         _currentScreen = _screens[screenType];
         _currentScreen.SetActive(true);
         OnScreenChanged?.Invoke(screenType);

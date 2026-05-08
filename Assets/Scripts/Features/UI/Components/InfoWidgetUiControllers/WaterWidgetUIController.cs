@@ -5,7 +5,7 @@ public class WaterWidgetUIController : InfoWidgetUIControllerBase
     private SessionStatisticsService _statisticsService;
     public override void Init(SessionWidgetContext context)
     {
-        _statisticsService = context.StatisticsService;
+        _statisticsService = context.SessionStatisticsService;
     }
 
     public override void UpdateWidget()

@@ -8,7 +8,7 @@ public class DrinkWidgetUIController : InfoWidgetUIControllerBase
 
     public override void Init(SessionWidgetContext context)
     {
-        _statisticsService = context.StatisticsService;
+        _statisticsService = context.SessionStatisticsService;
     }
 
     public override void UpdateWidget()

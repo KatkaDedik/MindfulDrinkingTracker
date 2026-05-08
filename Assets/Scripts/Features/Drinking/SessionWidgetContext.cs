@@ -1,5 +1,5 @@
 public class SessionWidgetContext
 {
-    public SessionPromileService PromileService { get; set; }
-    public SessionStatisticsService StatisticsService { get; set; }
+    public SessionPromileService SessionPromileService { get; set; }
+    public SessionStatisticsService SessionStatisticsService { get; set; }
 }

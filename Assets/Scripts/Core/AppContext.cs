@@ -9,4 +9,6 @@ public class AppContext
     public CalendarService CalendarService { get; set; }
 
     public ScreenManager ScreenManager { get; set; }
+
+    public AppFlowController AppFlowController { get; set; }
 }

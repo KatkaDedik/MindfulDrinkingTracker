@@ -15,12 +15,22 @@ public class ThemedSelectableButton : ThemedUI
     [SerializeField] private ColorRole _backgroundColorRole;
     [SerializeField] private TextStyle _textStyle;
 
+    private ColorRole _defaultForegroundColor;
+    private ColorRole _defaultBackgroundColor;
+    private bool _isInitialized = false;
 
-    private bool _isFilled = false;
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         _filledIconImage.gameObject.SetActive(false);
+        _defaultBackgroundColor = _backgroundColorRole;
+        _defaultForegroundColor = _foregroundColorRole;
+        _isInitialized = true;
     }
 
     protected override void ApplyTheme()
@@ -60,31 +70,27 @@ public class ThemedSelectableButton : ThemedUI
 
     }
 
-    public void Flip()
+    public void SetSelected(bool selected)
     {
-        if (_isFilled)
-            SetNormal();
-        else
-            SetFilled();
+        _iconImage.gameObject.SetActive(!selected);
+        _filledIconImage.gameObject.SetActive(selected);
 
-        ColorRole tmp = _backgroundColorRole;
-        _backgroundColorRole = _foregroundColorRole;
-        _foregroundColorRole = tmp;
+        if (!_isInitialized)
+        {
+            Init();
+        }
+
+        _backgroundColorRole = selected
+            ? _defaultForegroundColor
+            : _defaultBackgroundColor;
+
+        _foregroundColorRole = selected
+            ? _defaultBackgroundColor
+            : _defaultForegroundColor;
+
 
         ApplyTheme();
     }
 
-    public void SetNormal()
-    {
-        _iconImage.gameObject.SetActive(true);
-        _filledIconImage.gameObject.SetActive(false);
-        _isFilled = false;
-    }
 
-    public void SetFilled()
-    {
-        _iconImage.gameObject.SetActive(false);
-        _filledIconImage.gameObject.SetActive(true);
-        _isFilled = true;
-    }
 }

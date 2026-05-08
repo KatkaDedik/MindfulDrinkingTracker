@@ -4,7 +4,7 @@ public class PromileWidgetUIController : InfoWidgetUIControllerBase
 
     public override void Init(SessionWidgetContext context)
     {
-        _sessionPromileService = context.PromileService;
+        _sessionPromileService = context.SessionPromileService;
         UpdatePromile(0f);
     }
 

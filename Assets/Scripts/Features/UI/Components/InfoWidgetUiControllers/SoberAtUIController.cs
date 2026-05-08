@@ -3,7 +3,7 @@ public class SoberAtUIController : InfoWidgetUIControllerBase
     private SessionPromileService _sessionPromileService;
     public override void Init(SessionWidgetContext context)
     {
-        _sessionPromileService = context.PromileService;
+        _sessionPromileService = context.SessionPromileService;
     }
 
 

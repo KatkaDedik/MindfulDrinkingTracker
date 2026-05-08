@@ -17,21 +17,20 @@ public class ActiveSessionUIController : ScreenUIControllerBase
 
         _sessionWidgetContext = new SessionWidgetContext
         {
-            PromileService = context.SessionPromileService,
-            StatisticsService = context.SessionStatisticsService
+            SessionPromileService = context.SessionPromileService,
+            SessionStatisticsService = context.SessionStatisticsService
         };
 
         foreach (var widget in _infoWidgets)
         {
             widget.WidgetController.Init(_sessionWidgetContext);
         }
-
-        _infoGrid.Initialize(SessionService.CurrentGoal, _infoWidgets);
-        _drinkButtonPanel.Init(SessionService, context.SessionPromileService);
     }
 
     protected override void OnScreenShown()
     {
+        _infoGrid.Initialize(SessionService.CurrentGoal, _infoWidgets);
+        _drinkButtonPanel.Init(SessionService, _sessionWidgetContext.SessionPromileService);
         UpdateUI();
         if (_updateCoroutine == null)
             _updateCoroutine = StartCoroutine(UpdateLoop());

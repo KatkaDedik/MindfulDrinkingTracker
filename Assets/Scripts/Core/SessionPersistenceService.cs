@@ -17,11 +17,13 @@ public static class SessionPersistenceService
 
     public static void Save(DrinkingSessionModel session)
     {
-        string json = JsonUtility.ToJson(session);
+        DrinkingSessionSaveData data = new DrinkingSessionSaveData(session);
+
+        string json = JsonUtility.ToJson(data);
         File.WriteAllText(GetPath(), json);
     }
 
-    public static DrinkingSessionModel Load()
+    public static DrinkingSessionModel Load(DrinkDatabase drinkDatabase)
     {
         string path = GetPath();
 
@@ -29,7 +31,8 @@ public static class SessionPersistenceService
             return null;
 
         string json = File.ReadAllText(path);
-        return JsonUtility.FromJson<DrinkingSessionModel>(json);
+        var loadedData = JsonUtility.FromJson<DrinkingSessionSaveData>(json);
+        return new DrinkingSessionModel(loadedData, drinkDatabase);
     }
 
     public static void Clear()

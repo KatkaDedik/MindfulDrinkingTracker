@@ -23,24 +23,23 @@ public class AppFlowController
 
     public void Initialize()
     {
-        if (_sessionService.GetCurrentSession() != null)
-        {
+        if (SessionRepository.HasActiveSession())
+        {   
             CurrentState = AppFlowState.ActiveSession;
-
-            _screenManager.ShowScreen(ScreenType.Home);
+            _sessionService.LoadSession();
         }
         else
         {
             CurrentState = AppFlowState.NoActiveSession;
-
-            _screenManager.ShowScreen(ScreenType.Home);
         }
+
+        _screenManager.ShowScreen(ScreenType.Home);
         OnFlowStateChanged?.Invoke(CurrentState);
     }
 
     public void OpenHome()
     {
-        if(CurrentState == AppFlowState.ReadyConfiguringSession || CurrentState == AppFlowState.ConfiguringSession)
+        if(CurrentState == AppFlowState.ReadyConfiguringSession || CurrentState == AppFlowState.ConfiguringSession || CurrentState == AppFlowState.ViewingResult)
         {
             CurrentState = AppFlowState.NoActiveSession;
             OnFlowStateChanged?.Invoke(CurrentState);
@@ -94,12 +93,13 @@ public class AppFlowController
 
     public void EndSession()
     {
+
         // TODO:
         // - finalize session
         // - move to history
         // - clear active session
 
-        //_sessionService.EndSession();
+        _sessionService.EndSession();
         CurrentState = AppFlowState.ViewingResult;
         OnFlowStateChanged?.Invoke(CurrentState);
         _screenManager.ShowScreen(ScreenType.Result);

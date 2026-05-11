@@ -5,17 +5,17 @@ using UnityEngine;
 public class SessionService
 {
     private readonly SessionState _sessionState;
-    private readonly SessionRepository _sessionRepository;
     private readonly DrinkingSessionFactory _drinkingSessionFactory = new();
+    private DrinkDatabase _drinkDatabase;
 
     public DrinkingGoal CurrentGoal => _sessionState.CurrentGoal;
 
     public event Action OnSessionUpdated;
 
-    public SessionService(SessionState state)
+    public SessionService(SessionState state, DrinkDatabase drinkDatabase)
     {
         _sessionState = state;
-        _sessionRepository = new SessionRepository();
+        _drinkDatabase = drinkDatabase;
     }
 
     public void StartSession(SessionConfig config)
@@ -23,14 +23,31 @@ public class SessionService
         if (_sessionState.CurrentDrinkingSession != null && _sessionState.CurrentDrinkingSession.IsActive)
         {
             Debug.LogWarning("A session is already active.");
+            _sessionState.CurrentDrinkingSession = null;
+            SessionRepository.ClearActiveSession();
             return;
         }
 
         _sessionState.CurrentGoal = config.Goal;
         _sessionState.CurrentDrinkingSession = _drinkingSessionFactory.Create(config);
 
-        _sessionRepository.Save(_sessionState.CurrentDrinkingSession);
+        SessionRepository.Save(_sessionState.CurrentDrinkingSession);
         OnSessionUpdated?.Invoke();
+    }
+
+    public void LoadSession()
+    {
+        DrinkingSessionModel drinkingSessionModel = SessionRepository.Load(_drinkDatabase);
+        if (drinkingSessionModel != null)
+        {
+            SetCurrentDrinkingSession(drinkingSessionModel);
+        }
+        SessionRepository.ClearActiveSession();
+    }
+
+    public void EndSession()
+    {
+        SessionRepository.ClearActiveSession();
     }
 
     public void AddDrink(DrinkDefinition drink)
@@ -46,7 +63,7 @@ public class SessionService
             Drink = drink
         });
         Debug.Log($"Added drink {drink.name}");
-        _sessionRepository.Save(_sessionState.CurrentDrinkingSession);
+        SessionRepository.Save(_sessionState.CurrentDrinkingSession);
         OnSessionUpdated?.Invoke();
     }
 
@@ -58,5 +75,11 @@ public class SessionService
             return null;
         }
         return _sessionState.CurrentDrinkingSession;
+    }
+
+    public void SetCurrentDrinkingSession(DrinkingSessionModel drinkingSession)
+    {
+        _sessionState.CurrentDrinkingSession = drinkingSession;
+        _sessionState.CurrentGoal = drinkingSession.CurrentGoal;
     }
 }

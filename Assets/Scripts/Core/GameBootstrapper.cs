@@ -6,7 +6,7 @@ public class GameBootstrapper : MonoBehaviour
     [SerializeField] private ScreenManager _screenManager;
     [SerializeField] private CalendarUIController _calendarUIController;
     [SerializeField] private MenuManager _menuManager;
-
+    [SerializeField] private DrinkDatabase _drinkDatabase;
 
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class GameBootstrapper : MonoBehaviour
 
         var context = new AppContext
         {
-            SessionService = new SessionService(sessionState),
+            SessionService = new SessionService(sessionState, _drinkDatabase),
             SessionPromileService = new SessionPromileService(sessionState),
             SessionStatisticsService = new SessionStatisticsService(sessionState),
             CalendarService = new CalendarService(),
@@ -34,7 +34,5 @@ public class GameBootstrapper : MonoBehaviour
 
         _calendarUIController.Init(context);
         _menuManager.Init(context);
-
-
     }
 }

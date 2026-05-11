@@ -13,6 +13,44 @@ public class DrinkingSessionModel
     public int TotalDrinks => Drinks.Count;
     public int TotalWater = 0;
     public float DesiredMaxPromilePeak = 0f;
+
+    public DrinkingSessionModel() { }
+
+    public DrinkingSessionModel(
+    DrinkingSessionSaveData saveData,
+    DrinkDatabase drinkDatabase)
+    {
+        StartDateTime =
+            DateTime.Parse(saveData.StartDateTime);
+
+        if (!string.IsNullOrEmpty(saveData.EndTime))
+        {
+            EndTime =
+                DateTime.Parse(saveData.EndTime);
+        }
+
+        CurrentGoal = saveData.CurrentGoal;
+
+        MaxDrinks = saveData.MaxDrinks;
+
+        TotalWater = saveData.TotalWater;
+
+        DesiredMaxPromilePeak =
+            saveData.DesiredMaxPromilePeak;
+
+        Drinks = new List<DrinkEntryModel>();
+
+        foreach (var drinkSaveData in saveData.Drinks)
+        {
+            Drinks.Add(new DrinkEntryModel
+            {
+                Time = DateTime.Parse(drinkSaveData.Time),
+
+                Drink = drinkDatabase.GetDrinkById(
+                    drinkSaveData.DrinkId)
+            });
+        }
+    }
 }
 
 public class DrinkEntryModel

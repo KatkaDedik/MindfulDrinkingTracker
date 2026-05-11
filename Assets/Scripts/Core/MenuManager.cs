@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
     {
         _screenManager = context.ScreenManager;
         _appFlowController = context.AppFlowController;
+        Refresh(_screenManager.CurrentScreenType, _appFlowController.CurrentState);
     }
 
     private void OnEnable()
